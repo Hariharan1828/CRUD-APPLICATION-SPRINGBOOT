@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  app:
+    image: "backend_img"
+    build:
+      context: .
+    container_name: app
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://studentms.co3cg02b67sm.ap-south-1.rds.amazonaws.com:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=WATERFALLs18&
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
+      - SERVER_PORT=8081
+      - SERVER_ERROR_INCLUDE_MESSAGE=always
+
+  frontend-react:
+    image: 'frontend_final'
+    container_name: frontend-react
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+    restart: unless-stopped
